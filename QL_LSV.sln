@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL_LSV", "QL_LSV\QL_LSV.csproj", "{BDD20F5C-5C70-4CBF-880D-0F8BE5EE78BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDD20F5C-5C70-4CBF-880D-0F8BE5EE78BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDD20F5C-5C70-4CBF-880D-0F8BE5EE78BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDD20F5C-5C70-4CBF-880D-0F8BE5EE78BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDD20F5C-5C70-4CBF-880D-0F8BE5EE78BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD072F27-2296-425F-9DE1-B17624E0231C}
+	EndGlobalSection
+EndGlobal

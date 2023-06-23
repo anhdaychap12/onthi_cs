@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "TCập nhật thông tin sinh viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string id = Request["id"];
+}
+
+
+
+<div class="card card-primary">
+
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form id="form_act" enctype="multipart/form-data" method="post">
+        <div class="card-body">
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="rs_id" value="@id" name="f_id">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">MSSV</label>
+                <input type="text" class="form-control" id="MSSV" placeholder="MSSV" name="f_MSSV">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Họ và tên</label>
+                <input type="text" class="form-control" id="Name" placeholder="Họ và tên" name="f_Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Địa chỉ</label>
+                <input type="text" class="form-control" id="Address" placeholder="Địa chỉ" name="f_Address">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Ngày sinh</label>
+                <input type="date" class="form-control" id="NgaySinh" placeholder="Ngày sinh" name="f_Birthday">
+            </div>
+            <div class="form-group">
+                <label for="Gioitinh">Giới tính</label>
+                <select class="form-control" id="Gender" name="f_Gender">
+                    <option value="Nam">Nam</option>
+                    <option value="Nu">Nữ</option>
+                    <option value="Khac">Khác</option>
+                </select>
+            </div>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" id="btn-insert" onclick="Update()">Submit</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function fillData(obj) {
+        $('#MSSV').val(obj.sv_mssv);
+        $('#Name').val(obj.sv_name);
+        $('#Address').val(obj.sv_address);
+        $('#Gender').val(obj.sv_gender);
+        var dateTimeValue = obj.sv_birthday; // Giả sử biến này chứa giá trị date time
+
+        var year = dateTimeValue.getFullYear();
+        var month = String(dateTimeValue.getMonth() + 1).padStart(2, '0');
+        var day = String(dateTimeValue.getDate()).padStart(2, '0');
+
+        var formattedDate = year + '-' + month + '-' + day;
+        $('#NgaySinh').val('12-02-2022');
+        
+    }
+
+    function getList() {
+        var id = $('#rs_id').val();
+
+        $.ajax({
+            url: "/Sinhvien/GetSV",
+            method: "POST",
+            data: { id },
+            success: function (result) {
+                var obj = JSON.parse(result);
+                console.log(obj);
+                
+                fillData(obj);
+            }
+        }
+        )
+    }
+
+    function Update() {
+        if (confirm("Xác nhận cập nhật sinh viên")) {
+            let form = $('#form_act')[0];
+            let formData = new FormData(form);
+            console.log(formData);
+            $.ajax({
+                url: "/Sinhvien/PostEdit",
+                method: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result, status, xhr) {
+                    let rs = JSON.parse(result);
+                    console.log(rs);
+                    if (rs.ErrCode == 1) {
+                        toastr.success(rs.Message);
+                    }
+                    else {
+                        toastr.error(rs.Message);
+                    }
+                },
+                error: function () {
+                    console.log("Mất kết nối với máy chủ!");
+                }
+            });
+        }
+    }
+
+    $(function () {
+        getList();
+    })
+</script>
+

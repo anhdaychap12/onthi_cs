@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QL_LSV" Class="DataQL_LSVDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=PHUC\SQLEXPRESS;Initial Catalog=QL_LSV;User ID=sa;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="QL_LSVConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl_Lop" Member="tbl_Lops">
+    <Type Name="tbl_Lop">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="l_malop" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="l_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tbl_Lop_tbl_Sinhvien" Member="tbl_Sinhviens" ThisKey="id" OtherKey="id_lop" Type="tbl_Sinhvien" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Sinhvien" Member="tbl_Sinhviens">
+    <Type Name="tbl_Sinhvien">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="sv_mssv" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="sv_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="sv_birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="sv_address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="sv_gender" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="id_lop" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tbl_Lop_tbl_Sinhvien" Member="tbl_Lop" ThisKey="id_lop" OtherKey="id" Type="tbl_Lop" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
