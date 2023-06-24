@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Cập nhật thông tin lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string id = Request["id"];
+}
+
+
+
+<div class="card card-primary">
+
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form id="form_act" enctype="multipart/form-data" method="post">
+        <div class="card-body">
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="rs_id" value="@id" name="f_id">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Mã lớp</label>
+                <input type="text" class="form-control" id="MaLop" placeholder="Mã lớp" name="f_MaLop">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Tên lớp</label>
+                <input type="text" class="form-control" id="TenLop" placeholder="Tên lớp" name="f_TenLop">
+            </div>
+            
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" id="btn-insert" onclick="Update()">Submit</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function fillData(obj) {
+        $('#MaLop').val(obj.l_malop);
+        $('#TenLop').val(obj.l_name);
+
+    }
+
+    function getList() {
+        var id = $('#rs_id').val();
+
+        $.ajax({
+            url: "/Lop/GetSV",
+            method: "POST",
+            data: { id },
+            success: function (result) {
+                var obj = JSON.parse(result);
+                console.log(obj);
+
+                fillData(obj);
+            }
+        }
+        )
+    }
+
+    function Update() {
+        if (confirm("Xác nhận cập nhật sinh viên")) {
+            let form = $('#form_act')[0];
+            let formData = new FormData(form);
+            console.log(formData);
+            $.ajax({
+                url: "/Lop/PostEdit",
+                method: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (result, status, xhr) {
+                    let rs = JSON.parse(result);
+                    console.log(rs);
+                    if (rs.ErrCode == 1) {
+                        toastr.success(rs.Message);
+                    }
+                    else {
+                        toastr.error(rs.Message);
+                    }
+                },
+                error: function () {
+                    console.log("Mất kết nối với máy chủ!");
+                }
+            });
+        }
+    }
+
+    $(function () {
+        getList();
+    })
+</script>
+

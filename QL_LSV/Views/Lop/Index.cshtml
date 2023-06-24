@@ -7,7 +7,7 @@
 
     if (string.IsNullOrEmpty(str_page))
     {
-        str_page  = "1";
+        str_page = "1";
     }
 
     var totalRows = ViewData["count"];
@@ -82,7 +82,7 @@
     </nav>
 </div>
 
-    
+
 
 
 
@@ -93,7 +93,7 @@
         var pageItem = $('#page').val();
         var str_search = $('#val_search').val();
         $.ajax({
-            url: "/Sinhvien/GetList",
+            url: "/Lop/GetList",
             method: "POST",
             data: { pageItem, str_search },
             success: function (result) {
@@ -103,11 +103,8 @@
                     <thead>\
                             <tr align='center'>\
                                 <th>STT</th>\
-                                <th>MSSV</th>\
-                                <th>Name</th>\
-                                <th>Address</th>\
-                                <th>Gender</th>\
-                                <th>Birthday</th>\
+                                <th>Mã Lớp</th>\
+                                <th>Tên lớp</th>\
                                 <th>Thao tác</th>\
                             </tr>\
                         </thead>\
@@ -119,13 +116,10 @@
                     htmlResult += "\
                                 <tr>\
                                     <td>" + obj[i].id + "</td>\
-                                    <td class ='MSSV'>" + obj[i].sv_mssv + "</td>\
-                                    <td class='HoTen'>" + obj[i].sv_name + "</td>\
-                                    <td>" + obj[i].sv_address + "</td>\
-                                    <td>" + obj[i].sv_gender + "</td>\
-                                    <td>" + obj[i].sv_birthday + "</td>\
+                                    <td class ='MSSV'>" + obj[i].l_malop + "</td>\
+                                    <td class='HoTen'>" + obj[i].l_name + "</td>\
                                     <td>\
-                                    <a href=\"/Sinhvien/Edit?id="+ obj[i].id + "\"class=\"btn btn-primary mr-2\"><i class=\"fas fa-edit\"></i></a>\
+                                    <a href=\"/Lop/Edit?id="+ obj[i].id + "\"class=\"btn btn-primary mr-2\"><i class=\"fas fa-edit\"></i></a>\
                                     <button onclick=\"Delete("+obj[i].id+"\)\" class=\"btn btn-danger\"><i class=\"fas fa-trash\"></i></button>\
                                     </td>\
                                     ";
@@ -140,7 +134,7 @@
         console.log(id);
         if (confirm("Xác nhận xóa sinh viên có id:" + id)) {
             $.ajax({
-                url: "/Sinhvien/Delete",
+                url: "/Lop/Delete",
                 method: "POST",
                 data: { id },
                 success: function (result, status, xhr) {

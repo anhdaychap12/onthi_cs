@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QL_LSV.Models;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using QL_LSV.Models;
-using Newtonsoft.Json;
-using System.Globalization;
 
 namespace QL_LSV.Controllers
 {
-    public class SinhvienController : Controller
+    public class LopController : Controller
     {
+        // GET: Lop
         DataQL_LSVDataContext db = new DataQL_LSVDataContext();
         // GET: Sinhvien
         public ActionResult Index()
@@ -18,35 +19,35 @@ namespace QL_LSV.Controllers
             string str_search = Request["str_search"];
             if (string.IsNullOrEmpty(str_search))
             {
-                var count_ds = db.tbl_Sinhviens.Count();
+                var count_ds = db.tbl_Lops.Count();
                 ViewData["count"] = count_ds;
             }
             else
             {
-                var count_ds = db.tbl_Sinhviens.Where(o => o.sv_name.Contains(str_search)).Count();
+                var count_ds = db.tbl_Lops.Where(o => o.l_name.Contains(str_search)).Count();
                 ViewData["count"] = count_ds;
             }
-            
+
             return View();
         }
 
         public string GetList(string pageItem, string str_search)
         {
-            
+
             int limit = 2;
             int offset = int.Parse(pageItem) * limit - limit;
             if (string.IsNullOrEmpty(str_search))
             {
-                var dssv = db.tbl_Sinhviens.Skip(offset).Take(limit).ToList();
+                var dssv = db.tbl_Lops.Skip(offset).Take(limit).ToList();
                 return JsonConvert.SerializeObject(dssv);
             }
             else
             {
-                var dssv = db.tbl_Sinhviens.Where(o => o.sv_name.Contains(str_search)).Skip(offset).Take(limit).ToList();
+                var dssv = db.tbl_Lops.Where(o => o.l_name.Contains(str_search)).Skip(offset).Take(limit).ToList();
                 return JsonConvert.SerializeObject(dssv);
             }
-            
-            
+
+
         }
 
         public ActionResult Create()
@@ -60,28 +61,22 @@ namespace QL_LSV.Controllers
             Result_ett<string> rs = new Result_ett<string>();
             try
             {
-                string Name = Request["f_Name"];
-                string MSSV = Request["f_MSSV"];
-                string Address = Request["f_Address"];
-                string Birthday = Request["f_Birthday"];
-                string Gender = Request["f_Gender"];
+                string tenlop = Request["f_TenLop"];
+                string malop = Request["f_MaLop"];
 
-                tbl_Sinhvien newSV = new tbl_Sinhvien();
-                newSV.sv_mssv = MSSV;
-                newSV.sv_name = Name;
-                newSV.sv_address = Address;
-                newSV.sv_birthday = DateTime.ParseExact(Birthday, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                newSV.sv_gender = Gender;
-                db.tbl_Sinhviens.InsertOnSubmit(newSV);
+                tbl_Lop newSV = new tbl_Lop();
+                newSV.l_malop = malop;
+                newSV.l_name = tenlop;               
+                db.tbl_Lops.InsertOnSubmit(newSV);
                 db.SubmitChanges();
                 rs.ErrCode = EnumErrCode.Success;
-                rs.Message = "Thêm mới sinh viên thành công";
+                rs.Message = "Thêm mới lớp thành công";
             }
             catch (Exception ex)
             {
                 rs.ErrCode = EnumErrCode.Fail;
                 rs.ErrDetail = ex.Message;
-                rs.Message = "Thêm mới sinh viên không thành công";
+                rs.Message = "Thêm mới lớp không thành công";
                 return JsonConvert.SerializeObject(rs);
             }
             return JsonConvert.SerializeObject(rs);
@@ -95,7 +90,7 @@ namespace QL_LSV.Controllers
         public string GetSV(string id)
         {
             var int_id = int.Parse(id);
-            var dssv = db.tbl_Sinhviens.Where(o => o.id == int_id).FirstOrDefault();
+            var dssv = db.tbl_Lops.Where(o => o.id == int_id).FirstOrDefault();
             return JsonConvert.SerializeObject(dssv);
         }
 
@@ -106,18 +101,14 @@ namespace QL_LSV.Controllers
             {
                 string id = Request["f_id"];
                 int int_id = int.Parse(id);
-                string Name = Request["f_Name"];
-                string MSSV = Request["f_MSSV"];
-                string Address = Request["f_Address"];
-                string Birthday = Request["f_Birthday"];
-                string Gender = Request["f_Gender"];
+                string tenlop = Request["f_TenLop"];
+                string malop = Request["f_MaLop"];
+                
 
-                tbl_Sinhvien newSV = db.tbl_Sinhviens.Where(o => o.id == int_id).FirstOrDefault();
-                newSV.sv_mssv = MSSV;
-                newSV.sv_name = Name;
-                newSV.sv_address = Address;
-                newSV.sv_birthday = DateTime.ParseExact(Birthday, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                newSV.sv_gender = Gender;
+                tbl_Lop newSV = db.tbl_Lops.Where(o => o.id == int_id).FirstOrDefault();
+                newSV.l_malop = malop;
+                newSV.l_name = tenlop;
+                
                 db.SubmitChanges();
                 rs.ErrCode = EnumErrCode.Success;
                 rs.Message = "Cập nhật thành công";
@@ -132,27 +123,26 @@ namespace QL_LSV.Controllers
             return JsonConvert.SerializeObject(rs);
         }
 
-         public string Delete(string id)
+        public string Delete(string id)
         {
             Result_ett<string> rs = new Result_ett<string>();
             try
             {
-                tbl_Sinhvien delObj = db.tbl_Sinhviens.Where(o => o.id.Equals(id)).FirstOrDefault();
-                db.tbl_Sinhviens.DeleteOnSubmit(delObj);
+                tbl_Lop delObj = db.tbl_Lops.Where(o => o.id.Equals(id)).FirstOrDefault();
+                db.tbl_Lops.DeleteOnSubmit(delObj);
                 db.SubmitChanges();
                 rs.ErrCode = EnumErrCode.Success;
-                rs.Message = "Xóa sinh viên thành công";
+                rs.Message = "Xóa lớp thành công";
             }
             catch (Exception ex)
             {
                 rs.ErrCode = EnumErrCode.Fail;
                 rs.ErrDetail = ex.Message;
-                rs.Message = "Xóa sinh viên không thành công";
+                rs.Message = "Xóa lớp không thành công";
                 return JsonConvert.SerializeObject(rs);
             }
             return JsonConvert.SerializeObject(rs);
         }
-
 
 
     }

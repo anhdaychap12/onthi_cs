@@ -122,6 +122,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LopController.cs" />
     <Compile Include="Controllers\SinhvienController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2243,6 +2244,9 @@
     <Content Include="Views\Shared\Patial\Menu.cshtml" />
     <Content Include="Views\Sinhvien\Create.cshtml" />
     <Content Include="Views\Sinhvien\Edit.cshtml" />
+    <Content Include="Views\Lop\Index.cshtml" />
+    <Content Include="Views\Lop\Create.cshtml" />
+    <Content Include="Views\Lop\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
